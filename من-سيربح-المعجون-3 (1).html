@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refia Agamista | القائمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root { --coffee: #4b3832; --creamy: #fdfbf7; --gold: #be9b7b; --accent: #854442; }
+        body { font-family: 'Cairo', sans-serif; background: var(--creamy); color: var(--coffee); margin: 0; padding-bottom: 50px; }
+        
+        .cafe-header { height: 35vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+        .cafe-header h1 { font-family: 'Amiri', serif; font-size: 3rem; margin: 0; }
+        
+        .container { width: 90%; max-width: 600px; margin: auto; padding: 20px 0; }
+        .section-title { color: var(--accent); border-bottom: 3px solid var(--gold); margin-top: 40px; font-size: 1.5rem; font-family: 'Amiri', serif; padding-bottom: 5px; }
+        
+        .menu-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 1.1rem; padding: 8px; border-bottom: 1px dashed #ccc; cursor: pointer; transition: 0.3s; border-radius: 8px; }
+        .menu-row:hover { background: #fdf2e9; }
+        .menu-row.selected { background: #d7ccc8; border-right: 5px solid var(--accent); }
+        .price { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
+        
+        .order-zone { background: #fff; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .feedback-section { margin-top: 40px; padding: 25px; background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #eee; }
+        .feedback-section h3, .order-zone h3 { color: var(--accent); text-align: center; margin-bottom: 20px; }
+        
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
+        .input-group { margin-bottom: 15px; text-align: right; }
+        .input-group label { font-weight: 700; color: var(--coffee); margin-bottom: 5px; display: block; font-size: 0.9rem; }
+        
+        #sendOrderBtn { background: var(--coffee); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        #sendOrderBtn:hover { background: var(--accent); transform: translateY(-2px); }
+        
+        .footer-tag { text-align: center; font-size: 0.9rem; color: #888; margin-top: 50px; }
+  
+          #sendBtn { background: var(--coffee); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        #sendBtn:hover { background: var(--accent); transform: translateY(-2px); }
+        
+  
+    </style>
+</head>
+<body>
+
+    <div class="cafe-header">
+        <h1>Refia Agamista</h1>
+        <p>حيث يمتزج سحر القهوة مع نسمات البحر</p>
+    </div>
+
+    <div class="container">
+        <div class="order-zone">
+            <h3>تفاصيل طلبك</h3>
+            <div class="input-group">
+                <label for="tableNum">رقم الطاولة</label>
+                <input type="number" id="tableNum" placeholder="أدخل رقم الطاولة">
+            </div>
+            <div class="input-group">
+                <label for="orderNotes">ملاحظات إضافية</label>
+                <textarea id="orderNotes" rows="2" placeholder="مثال: سكر زيادة، بدون ثلج..."></textarea>
+            </div>
+            <button id="sendOrderBtn" onclick="sendOrder()">إرسال الطلب للويتر</button>
+        </div>
+
+        <!-- القائمة (تم الحفاظ على كل الأصناف كما هي) -->
+        <h2 class="section-title">مشروبات ساخنة | Hot Drinks</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>شاي</span><span class="price">30</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>شاي نكهات</span><span class="price">32</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة تركي</span><span class="price">33</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة تركي دبل</span><span class="price">37</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة فرنسي</span><span class="price">53</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة فرنسي دبل</span><span class="price">55</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة بندق</span><span class="price">56</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>قهوة باللبن</span><span class="price">55</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>نسكافيه</span><span class="price">47</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>إسبريسو</span><span class="price">57</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>إسبريسو دبل</span><span class="price">62</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أمريكان كوفي</span><span class="price">55</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كابتشينو</span><span class="price">58</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>نوتيلا كوفي</span><span class="price">60</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>لاتيه</span><span class="price">61</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>موكا</span><span class="price">61</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>وايت شوكليت</span><span class="price">65</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>هوت شوكليت</span><span class="price">65</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>هوت وايت شوكليت</span><span class="price">65</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كوكتيل أعشاب</span><span class="price">60</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كورتو كلاسيك</span><span class="price">75</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>هوت سبانش لاتيه</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فينيتامي دبل</span><span class="price">69</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فلات وايت</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>هاواي سيدر</span><span class="price">55</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ماركينو</span><span class="price">67</span></div>
+
+        <h2 class="section-title">مشروبات باردة | Cold Drinks</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>مياه معدنية</span><span class="price">13</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>مشروبات غازية</span><span class="price">37</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>بيريل</span><span class="price">40</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ريد بول</span><span class="price">86</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>صن رايز</span><span class="price">54</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>صن شاين</span><span class="price">54</span></div>
+
+        <h2 class="section-title">أيس فروتنز | Ice Fruit</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فروت سالاد</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فروت سالاد أيس</span><span class="price">92</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس كريم</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>مولتن كيك</span><span class="price">83</span></div>
+
+        <h2 class="section-title">أيس درينك | Iced Drinks</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس شوكلت</span><span class="price">69</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس موكا</span><span class="price">72</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس لاتيه</span><span class="price">72</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس كراميل</span><span class="price">68</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس سموزي</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أيس سبانش لاتيه</span><span class="price">84</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فربتيشينو</span><span class="price">73</span></div>
+
+        <h2 class="section-title">ميلك شيك | Milk Shakes</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك نوتيلا</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك أوريو</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك جلاكسي</span><span class="price">84</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك سنيكرز</span><span class="price">84</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك كيت كات</span><span class="price">84</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك ميكس شوكلت</span><span class="price">104</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك شوكلت</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك مانجو</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك فانيلية</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك فراولة</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ميلك بستاشيو</span><span class="price">93</span></div>
+
+        <h2 class="section-title">كوكتيل | Cocktails</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فلوريدا</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>بينا كولادا</span><span class="price">75</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>إليكتريك ليمون</span><span class="price">71</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>شيري كولا</span><span class="price">69</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>زبادى</span><span class="price">76</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أفريكانو</span><span class="price">78</span></div>
+
+        <h2 class="section-title">عصائر فريش | Fresh Juices</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>مانجو</span><span class="price">60</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ليمون</span><span class="price">68</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كيوي</span><span class="price">66</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>ليمون نعناع</span><span class="price">85</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فراولة</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أناناس</span><span class="price">81</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>جوافة</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>رمان</span><span class="price">69</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>بطيخ</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أفوكادو</span><span class="price">81</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>بلح</span><span class="price">69</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أفوكادو مكسرات</span><span class="price">101</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>عنب</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كنتالوب</span><span class="price">66</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>برتقال</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>برقوق</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>خوخ</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>موز</span><span class="price">67</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>زبادى</span><span class="price">63</span></div>
+
+        <h2 class="section-title">حلويات | Desserts</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أرز بلبن مكسرات</span><span class="price">47</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أرز بلبن جيلاتى</span><span class="price">62</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أرز بلبن جيلاتى مكسرات</span><span class="price">79</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>كريم كراميل</span><span class="price">36</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>أم على مكسرات</span><span class="price">77</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>جيلى</span><span class="price">26</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>شيز كيك</span><span class="price">93</span></div>
+
+        <h2 class="section-title">شيشة | Shisha</h2>
+        <div class="menu-row" onclick="toggleItem(this)"><span>معسل سلوم</span><span class="price">13</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فاخر</span><span class="price">88</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>فرساوي</span><span class="price">118</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>دبل هيد</span><span class="price">148</span></div>
+        <div class="menu-row" onclick="toggleItem(this)"><span>شيشة مغربي</span><span class="price">98</span></div>
+
+        <div class="feedback-section">
+            <h3>اترك رأيك في تجربتك</h3>
+            <input type="text" id="custName" placeholder="الاسم (اختياري)">
+            <textarea id="custFeedback" rows="3" placeholder="اكتب رأيك هنا..."></textarea>
+            <button id="sendBtn" onclick="sendFeedback()">إرسال الرأي</button>
+        </div>
+    </div>
+
+    <div class="footer-tag">Powered by PrimeAhmed</div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpy4ZUAtE7tKFsMJocnsywZCYAOM3CAMA",
+            authDomain: "ososo-9ff14.firebaseapp.com",
+            projectId: "ososo-9ff14",
+            storageBucket: "ososo-9ff14.firebasestorage.app",
+            messagingSenderId: "753501605833",
+            appId: "1:753501605833:web:475d02965fc1bdc2732218"
+        };
+
+        const db = getFirestore(initializeApp(firebaseConfig));
+
+        window.toggleItem = (el) => el.classList.toggle('selected');
+
+        window.sendOrder = async () => {
+            const selectedItems = Array.from(document.querySelectorAll('.selected')).map(el => el.innerText.split('\n')[0]);
+            const table = document.getElementById('tableNum').value;
+            const notes = document.getElementById('orderNotes').value;
+            
+            if (selectedItems.length === 0) return alert("من فضلك اختر أصنافاً أولاً!");
+            if (!table) return alert("من فضلك اكتب رقم الطاولة!");
+            
+            try {
+                await addDoc(collection(db, "orders"), {
+                    items: selectedItems,
+                    table: table,
+                    notes: notes,
+                    status: "pending",
+                    timestamp: new Date().toLocaleString()
+                });
+                alert("تم إرسال طلبك للويتر بنجاح!");
+                location.reload();
+            } catch (e) { alert("حدث خطأ في الإرسال"); }
+        }
+
+        window.sendFeedback = async () => {
+            const nameInput = document.getElementById('custName');
+            const feedbackInput = document.getElementById('custFeedback');
+            const btn = document.getElementById('sendBtn');
+            if (!feedbackInput.value.trim()) return alert("من فضلك اكتب رأيك أولاً!");
+            
+            btn.disabled = true;
+            try {
+                await addDoc(collection(db, "feedbacks"), {
+                    name: nameInput.value.trim() || "زائر",
+                    text: feedbackInput.value.trim(),
+                    timestamp: new Date().toLocaleString()
+                });
+                alert("شكراً لرأيك!");
+                location.reload();
+            } catch (e) { alert("حدث خطأ"); }
+        }
+    </script>
+</body>
+</html>
