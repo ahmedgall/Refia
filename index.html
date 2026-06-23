@@ -28,15 +28,10 @@
         .input-group { margin-bottom: 15px; text-align: right; }
         .input-group label { font-weight: 700; color: var(--coffee); margin-bottom: 5px; display: block; font-size: 0.9rem; }
         
-        #sendOrderBtn { background: var(--coffee); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
-        #sendOrderBtn:hover { background: var(--accent); transform: translateY(-2px); }
+        #sendOrderBtn, #sendBtn { background: var(--coffee); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        #sendOrderBtn:hover, #sendBtn:hover { background: var(--accent); transform: translateY(-2px); }
         
         .footer-tag { text-align: center; font-size: 0.9rem; color: #888; margin-top: 50px; }
-  
-          #sendBtn { background: var(--coffee); color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
-        #sendBtn:hover { background: var(--accent); transform: translateY(-2px); }
-        
-  
     </style>
 </head>
 <body>
@@ -60,7 +55,7 @@
             <button id="sendOrderBtn" onclick="sendOrder()">إرسال الطلب للويتر</button>
         </div>
 
-        <!-- القائمة (تم الحفاظ على كل الأصناف كما هي) -->
+        <!-- الأقسام والأصناف كاملة -->
         <h2 class="section-title">مشروبات ساخنة | Hot Drinks</h2>
         <div class="menu-row" onclick="toggleItem(this)"><span>شاي</span><span class="price">30</span></div>
         <div class="menu-row" onclick="toggleItem(this)"><span>شاي نكهات</span><span class="price">32</span></div>
@@ -180,10 +175,11 @@
 
     <div class="footer-tag">Powered by PrimeAhmed</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
+    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBpy4ZUAtE7tKFsMJocnsywZCYAOM3CAMA",
             authDomain: "ososo-9ff14.firebaseapp.com",
@@ -193,7 +189,8 @@
             appId: "1:753501605833:web:475d02965fc1bdc2732218"
         };
 
-        const db = getFirestore(initializeApp(firebaseConfig));
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
         window.toggleItem = (el) => el.classList.toggle('selected');
 
@@ -206,7 +203,7 @@
             if (!table) return alert("من فضلك اكتب رقم الطاولة!");
             
             try {
-                await addDoc(collection(db, "orders"), {
+                await db.collection("orders").add({
                     items: selectedItems,
                     table: table,
                     notes: notes,
@@ -214,7 +211,10 @@
                     timestamp: new Date().toLocaleString()
                 });
                 alert("تم إرسال طلبك للويتر بنجاح!");
-                location.reload();
+                // إعادة تعيين الحقول
+                document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+                document.getElementById('tableNum').value = "";
+                document.getElementById('orderNotes').value = "";
             } catch (e) { alert("حدث خطأ في الإرسال"); }
         }
 
@@ -226,14 +226,16 @@
             
             btn.disabled = true;
             try {
-                await addDoc(collection(db, "feedbacks"), {
+                await db.collection("feedbacks").add({
                     name: nameInput.value.trim() || "زائر",
                     text: feedbackInput.value.trim(),
                     timestamp: new Date().toLocaleString()
                 });
                 alert("شكراً لرأيك!");
-                location.reload();
-            } catch (e) { alert("حدث خطأ"); }
+                feedbackInput.value = "";
+                nameInput.value = "";
+                btn.disabled = false;
+            } catch (e) { alert("حدث خطأ"); btn.disabled = false; }
         }
     </script>
 </body>
